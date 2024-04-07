@@ -1,0 +1,25 @@
+char character = 0;
+
+void setup() {
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
+  while (!Serial); // attendre que le port série soit détecté
+  Serial.println("To light ON the LED, enter 1");
+  Serial.println("To light OFF the LED, enter 0");
+}
+
+void loop() {
+  if (Serial.available()) {
+    character = Serial.read(); // Correction : La fonction est "read", pas "readO"
+    
+    if (character == '1') { // Correction : '1' au lieu de '14'
+      digitalWrite(led, HIGH);
+      Serial.println("1 : LED ON");
+    } else if (character == '0') {
+      digitalWrite(led, LOW);
+      Serial.println("0 : LED OFF");
+    } else {
+      Serial.println("Unknown character. Please type 0 or 1");
+    }
+  }
+}
