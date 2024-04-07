@@ -1,1 +1,35 @@
+#include "header.h"
 
+void demanderPseudo(char *pseudo, const char *message) {
+    int key_enter_released = 0;
+    clear_to_color(screen, makecol(0, 0, 0));
+    textout_centre_ex(screen, font, message, SCREEN_W / 2, SCREEN_H / 2 - 10, makecol(255, 255, 255), -1);
+    do {
+        // Assurez-vous que la touche ENTER a été relâchée avant de commencer
+        if (!key[KEY_ENTER]) {
+            key_enter_released = 1;
+        }
+
+        if (keypressed()) {
+            int newkey = readkey();
+            char ASCII = newkey & 0xff;
+            char temp[2] = {ASCII, '\0'};
+            if (ASCII >= 32 && ASCII <= 126) {
+                strcat(pseudo, temp);
+            } else if (newkey >> 8 == KEY_BACKSPACE) {
+                int len = strlen(pseudo);
+                if (len > 0) pseudo[len-1] = '\0';
+            }
+            clear_to_color(screen, makecol(0, 0, 0));
+            textout_centre_ex(screen, font, message, SCREEN_W / 2, SCREEN_H / 2 - 10, makecol(255, 255, 255), -1);
+            textout_centre_ex(screen, font, pseudo, SCREEN_W / 2, SCREEN_H / 2 + 10, makecol(255, 255, 255), -1);
+        }
+    } while (!key[KEY_ENTER] || !key_enter_released);
+}
+
+void pseudo(){
+    demanderPseudo(pseudoJoueur1, "Joueur 1: Entrez votre pseudo et appuyez sur Entrée");
+    demanderPseudo(pseudoJoueur2, "Joueur 2: Entrez votre pseudo et appuyez sur Entrée");
+    strcpy(joueur1.pseudo, pseudoJoueur1);
+    strcpy(joueur2.pseudo, pseudoJoueur2);
+}
