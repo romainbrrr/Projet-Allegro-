@@ -24,9 +24,11 @@ void init() {
     image4_menu = load_bitmap("image/bouton_niveau.bmp", NULL);
     image2_menu = load_bitmap("image/bouton_regledujeu.bmp", NULL);
     image3_menu = load_bitmap("image/bouton_quitter.bmp", NULL);
-
+    image_joueur1 = load_bitmap("image/joueur1.bmp", NULL);
+    image_joueur2 = load_bitmap("image/joueur2.bmp", NULL);
+    image_background = load_bitmap("image/background.bmp", NULL);
     // Vérification du chargement correct des images
-    if (!image_menu || !image1_menu || !image2_menu || !image3_menu || !image4_menu) {
+    if (!image_menu || !image1_menu || !image2_menu || !image3_menu || !image4_menu || !image_joueur1 ) {
         allegro_message("Erreur lors du chargement d'une image");
         exit(-1);
     }
