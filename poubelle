@@ -1,1 +1,19 @@
+#include "header.h"
 
+// Initialisation de la poubelle
+void init_poubelle(Poubelle *p, int x, int y, int largeur, int hauteur) {
+    p->x = x;
+    p->y = y;
+    p->largeur = largeur;
+    p->hauteur = hauteur;
+}
+
+void dessiner_poubelle(Poubelle *p, BITMAP *buffer) {
+    rectfill(buffer, p->x, p->y, p->x + p->largeur, p->y + p->hauteur, makecol(128, 128, 128)); // Dessine un rectangle gris pour la poubelle
+}
+
+bool est_pres_poubelle(int objX, int objY, Poubelle *p) {
+    // On définit une marge de 20 pixels autour de la poubelle pour détecter si l'objet est à côté
+    return (objX >= p->x - 50 && objX <= p->x + p->largeur + 50 &&
+            objY >= p->y - 50 && objY <= p->y + p->hauteur + 50);
+}
