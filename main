@@ -1,0 +1,101 @@
+#include "header.h"
+#include <allegro.h>
+
+#define LARGEUR_ECRAN 800
+#define HAUTEUR_ECRAN 600
+
+
+
+void init() {
+    allegro_init();
+    install_keyboard();
+    install_mouse();
+    set_color_depth(32);
+    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, LARGEUR_ECRAN, HAUTEUR_ECRAN, 0, 0) != 0) {
+        allegro_message("Erreur de mode graphique : %s\n", allegro_error);
+        exit(-1);
+    }
+
+    page = create_bitmap(LARGEUR_ECRAN, HAUTEUR_ECRAN);
+
+    // Chargement des images
+    image_menu = load_bitmap("image/menu.bmp", NULL);
+    image1_menu = load_bitmap("image/bouton_jouer.bmp", NULL);
+    image4_menu = load_bitmap("image/bouton_niveau.bmp", NULL);
+    image2_menu = load_bitmap("image/bouton_regledujeu.bmp", NULL);
+    image3_menu = load_bitmap("image/bouton_quitter.bmp", NULL);
+
+    // Vérification du chargement correct des images
+    if (!image_menu || !image1_menu || !image2_menu || !image3_menu || !image4_menu) {
+        allegro_message("Erreur lors du chargement d'une image");
+        exit(-1);
+    }
+    show_mouse(screen);
+}
+
+
+void deinit() {
+    destroy_bitmap(page);
+    destroy_bitmap(image_menu);
+    destroy_bitmap(image1_menu);
+    destroy_bitmap(image2_menu);
+    destroy_bitmap(image3_menu);
+    destroy_bitmap(image4_menu); // Libération du nouveau bitmap
+    allegro_exit();
+}
+
+
+
+void RegleDuJeu() {
+    // Traitement à effectuer lors du clic sur le bouton "Règles du jeu"
+}
+
+void quitter() {
+   allegro_exit();
+}
+
+int main() {
+    init();
+    while (!key[KEY_ESC]) {
+        // Vérification si la souris est sur la case "Jouer"
+        clear_bitmap(page);
+        blit(image_menu, page, 0, 0, 0, 0, image_menu->w, image_menu->h);
+
+        if (mouse_x >= 253 && mouse_x <= 548 &&
+            mouse_y >= 248 && mouse_y <= 297) {
+            draw_sprite(page, image1_menu, 0, 0);
+            if (mouse_b) { // Clic gauche détecté
+                pseudo();
+                jouer();
+            }
+        } else if (mouse_x >= 253 && mouse_x <= 548 &&
+                   mouse_y >= 322 && mouse_y <= 371) {
+            draw_sprite(page, image4_menu, 0, 0); // Utilisation du nouveau bouton "Options"
+            if (mouse_b) { // Clic gauche détecté
+                //niveau();
+            }
+        } else if (mouse_x >= 253 && mouse_x <= 548 &&
+                   mouse_y >= 397 && mouse_y <= 446) {
+            draw_sprite(page, image2_menu, 0, 0);
+            if (mouse_b) { // Clic gauche détecté
+                RegleDuJeu();
+            }
+        } else if (mouse_x >= 253 && mouse_x <= 548 &&
+                   mouse_y >= 472 && mouse_y <= 521) {
+            draw_sprite(page, image3_menu, 0, 0);
+            if (mouse_b) { // Clic gauche détecté
+                quitter();
+            }
+        }
+
+        // Rafraîchir l'écran
+        // blit(screen, page, 0, 0, 0, 0, LARGEUR_ECRAN, HAUTEUR_ECRAN);
+        blit(page, screen, 0, 0, 0, 0, LARGEUR_ECRAN, HAUTEUR_ECRAN);
+    }
+
+    // Nettoyage
+    deinit();
+
+    return 0;
+}
+END_OF_MAIN();
