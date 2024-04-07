@@ -1,0 +1,39 @@
+void dessiner_personnage(Personnage *p, BITMAP *buffer) {
+    if (strcmp(p->pseudo, "Joueur 1") == 0) {
+        draw_sprite(buffer, image_joueur1, p->x - image_joueur1->w / 2, p->y - image_joueur1->h / 2);
+    } else if (strcmp(p->pseudo, "Joueur 2") == 0) {
+        draw_sprite(buffer, image_joueur1, p->x - image_joueur1->w / 2, p->y - image_joueur1->h / 2);
+    }
+}
+
+void dessiner_salade(Objet *o, Personnage *joueur1, Personnage *joueur2, BITMAP *buffer) {
+    if (!o->estTenu) {
+        circlefill(buffer, o->x, o->y, 40, makecol(0, 255, 0));
+    } else {
+        if (o->parJoueur == 1) {
+            o->x = joueur1->x;
+            o->y = joueur1->y;
+        } else if (o->parJoueur == 2) {
+            o->x = joueur2->x;
+            o->y = joueur2->y;
+        }
+        circlefill(buffer, o->x, o->y, 40, makecol(0, 255, 0));
+    }
+}
+
+void dessiner_steak(Objet *o, Personnage *joueur1, Personnage *joueur2, BITMAP *buffer) {
+    if (!o->estTenu) {
+        circlefill(buffer, o->x, o->y, 10, makecol(40, 0, 0));
+    } else {
+        if (o->parJoueur == 1) {
+            o->x = joueur1->x;
+            o->y = joueur1->y;
+        } else if (o->parJoueur == 2) {
+            o->x = joueur2->x;
+            o->y = joueur2->y;
+        }
+        circlefill(buffer, o->x, o->y, 10, makecol(40, 0, 0));
+    }
+}//
+// Created by LENOVO on 07/04/2024.
+//
